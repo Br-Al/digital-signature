@@ -8,7 +8,7 @@ from datetime import datetime
 aitecaf_logo = Image.open('./assets/imgs/AITECAF-black.png')
 title_container, logo_container = st.columns([0.8, 0.2])
 with title_container:
-    st.markdown("""<style> .title { font-family: 'Nexa'; color: #008037; } </style>""", unsafe_allow_html=True)
+    st.markdown("""<style> .title { font-family: 'Nexa'; color: #008037; } body {background-color: white;}</style>""", unsafe_allow_html=True)
     st.markdown('<h1 class="title"> Digitalize Your signature </h1>', unsafe_allow_html=True)
 with logo_container:
     st.image(aitecaf_logo)
@@ -32,7 +32,7 @@ def digitalize(uploaded_signature):
 def save(img):
     file_name = f'signed-{datetime.now().strftime("%d%m%y%H%M%S")}.png'
     cv2.imwrite(f'./assets/imgs/signatures/{file_name}', img)
-    with open(f'.assets/imgs/signatures/{file_name}', 'rb') as file:
+    with open(f'./assets/imgs/signatures/{file_name}', 'rb') as file:
         btn = st.download_button('Download', file, file_name='signed.png', mime='image/png')
 
 #### Sidebar
@@ -52,9 +52,11 @@ with st.sidebar:
     rgb_color = tuple(int(hexa_color[i:i+2], 16) for i in (0, 2, 4))
     threshold = st.slider("Threahold", min_value=0, max_value=255, value=150, step=1)
 
-
-uploaded_signature = st.file_uploader('Uploads a picture of your signature', type=['png', 'jpg', 'jpeg'])
-
+upload_option = st.radio('', ('Upload from galery', 'Take a picture'), horizontal=True)
+if upload_option == "Upload from galery":
+    uploaded_signature = st.file_uploader('Uploads a picture of your signature', type=['png', 'jpg', 'jpeg'])
+else:
+    uploaded_signature = st.camera_input('Take a picture of your signature')
 original, output = st.columns(2)
 if uploaded_signature is not None:
     digital_signature = digitalize(uploaded_signature)
