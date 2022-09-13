@@ -5,7 +5,7 @@ name = "pypi"
 
 [packages]
 numpy = "==1.23.3"
-opencv-python = "==4.6.0.66"
+opencv-python-headless = "==4.6.0.66"
 pandas = "==1.4.4"
 pillow = "==9.2.0"
 streamlit = "==1.12.2"
