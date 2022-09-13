@@ -58,9 +58,18 @@ if upload_option == "Upload from galery":
 else:
     uploaded_signature = st.camera_input('Take a picture of your signature')
 original, output = st.columns(2)
+saved = False
 if uploaded_signature is not None:
     digital_signature = digitalize(uploaded_signature)
     st.image(digital_signature)
-    st.button('Save', on_click=save(digital_signature))
-    # st.download_button('Download', digital_signature, file_name='signature.png')
+    save_column, download_column = st.columns(2)
+    with save_column:
+        if st.button('Save'):
+            file_name = f'signed-{datetime.now().strftime("%d%m%y%H%M%S")}.png'
+            cv2.imwrite(f'./assets/imgs/signatures/{file_name}', digital_signature)
+            saved = True
+    if saved:        
+        with open(f'./assets/imgs/signatures/{file_name}', 'rb') as file:
+            with download_column:
+                btn = st.download_button('Download', file, file_name='signed.png', mime='image/png')
 
