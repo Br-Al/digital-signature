@@ -5,7 +5,7 @@ from PIL import Image, ImageEnhance
 from streamlit_cropper import st_cropper
 from datetime import datetime
 
-aitecaf_logo = Image.open('assets\imgs\AITECAF-black.png')
+aitecaf_logo = Image.open('./assets/imgs/AITECAF-black.png')
 title_container, logo_container = st.columns([0.8, 0.2])
 with title_container:
     st.markdown("""<style> .title { font-family: 'Nexa'; color: #008037; } </style>""", unsafe_allow_html=True)
@@ -31,8 +31,8 @@ def digitalize(uploaded_signature):
 
 def save(img):
     file_name = f'signed-{datetime.now().strftime("%d%m%y%H%M%S")}.png'
-    cv2.imwrite(f'assets\imgs\signatures\{file_name}', img)
-    with open(f'assets\imgs\signatures\{file_name}', 'rb') as file:
+    cv2.imwrite(f'./assets/imgs/signatures/{file_name}', img)
+    with open(f'.assets/imgs/signatures/{file_name}', 'rb') as file:
         btn = st.download_button('Download', file, file_name='signed.png', mime='image/png')
 
 #### Sidebar
