@@ -40,7 +40,8 @@ def save(img):
 with st.sidebar:
     st.image(aitecaf_logo)
     st.write("""This is a Digital Signature Using OpenCV""")
-    st.write("By Kenfack Anafack Alex Bruno: [LinkedIn](https://www.linkedin.com/in/bruno-alex-kenfack-anafack-5a82b4151/)")
+    st.write("By [Kenfack Anafack Alex Bruno](https://www.linkedin.com/in/bruno-alex-kenfack-anafack-5a82b4151/)")
+    st.write("[GitHub Repository](https://github.com/bruno70821/digital-signature.git)")
 
 with st.sidebar.expander("About this App"):  
     st.write("""Use this simple app to digitalize your signatire. Download and paste it in any digital document.""")
