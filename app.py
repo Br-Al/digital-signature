@@ -1,3 +1,4 @@
+from shutil import which
 import streamlit as st
 import cv2
 import numpy as np
@@ -18,6 +19,12 @@ def digitalize(uploaded_signature):
     signature = Image.open(uploaded_signature)
     
     cropped = st_cropper(signature, aspect_ratio=(16, 9))
+    col1, col2 = st.columns([0.2, 0.8])
+    with col1:
+        hexa_color = st.color_picker('color').lstrip('#')
+        rgb_color = tuple(int(hexa_color[i:i+2], 16) for i in (0, 2, 4))
+    with col2:
+        threshold = st.slider("Threahold", min_value=0, max_value=255, value=150, step=1)
     converted_signature = np.array(cropped.convert('RGB'))
     sign_gray = cv2.cvtColor(converted_signature, cv2.COLOR_BGR2GRAY)
     _, alpha_mask = cv2.threshold(sign_gray, threshold, 255, cv2.THRESH_BINARY_INV)
@@ -48,10 +55,10 @@ with st.sidebar.expander("About this App"):
     st.write("""This app was created By [Kenfack Anafack Alex Bruno](https://www.linkedin.com/in/bruno-alex-kenfack-anafack-5a82b4151/)
     as a side project to learn streamlit and Computer vision. Hope you enjoy!""")
 
-with st.sidebar:
-    hexa_color = st.color_picker('color').lstrip('#')
-    rgb_color = tuple(int(hexa_color[i:i+2], 16) for i in (0, 2, 4))
-    threshold = st.slider("Threahold", min_value=0, max_value=255, value=150, step=1)
+# with st.sidebar:
+#     hexa_color = st.color_picker('color').lstrip('#')
+#     rgb_color = tuple(int(hexa_color[i:i+2], 16) for i in (0, 2, 4))
+#     threshold = st.slider("Threahold", min_value=0, max_value=255, value=150, step=1)
 
 upload_option = st.radio('', ('Upload from galery', 'Take a picture'), horizontal=True)
 if upload_option == "Upload from galery":
@@ -61,6 +68,7 @@ else:
 original, output = st.columns(2)
 saved = False
 if uploaded_signature is not None:
+    
     digital_signature = digitalize(uploaded_signature)
     st.image(digital_signature)
     save_column, download_column = st.columns(2)
